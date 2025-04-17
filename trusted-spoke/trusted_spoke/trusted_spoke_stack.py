@@ -20,7 +20,7 @@ class TrustedSpokeStack(Stack):
 
         # Use existing VPC
         vpc = ec2.Vpc.from_lookup(self, "TrustedVpc", 
-            vpc_name="Spoke-VPC-Trusted"
+            vpc_name="sky-vpc"
         )
         
         # Create a security group for the Lambda function
@@ -144,7 +144,7 @@ class TrustedSpokeStack(Stack):
         transfer_lambda = lambda_.Function(self, "TransferFunction",
             function_name="s3-transfer",
             runtime=lambda_.Runtime.PYTHON_3_9,
-            code=lambda_.Code.from_asset("./lambda/transfer"),
+            code=lambda_.Code.from_asset("./lambda"),
             handler="index.lambda_handler",
             timeout=Duration.minutes(5),
             memory_size=512,
@@ -154,7 +154,7 @@ class TrustedSpokeStack(Stack):
             },
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(
-                subnet_type=ec2.SubnetType.PRIVATE_ISOLATED
+                subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT
             ),
             security_groups=[lambda_sg],
             role=lambda_role,

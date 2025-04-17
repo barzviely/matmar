@@ -1,0 +1,40 @@
+{
+  "vpc-provider:account=746669204818:filter.tag:Name=sky-vpc:region=il-central-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0fc6ace5a1052413a",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "ownerAccountId": "746669204818",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0e524d342a0d56763",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "il-central-1a",
+            "routeTableId": "rtb-00bd78591d72d4c35"
+          },
+          {
+            "subnetId": "subnet-0ec72cba8c32751ea",
+            "cidr": "10.0.2.0/24",
+            "availabilityZone": "il-central-1b",
+            "routeTableId": "rtb-00bd78591d72d4c35"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0a548e10a7cfb21dd",
+            "cidr": "10.0.3.0/24",
+            "availabilityZone": "il-central-1b",
+            "routeTableId": "rtb-07f3e0992df566236"
+          }
+        ]
+      }
+    ]
+  }
+}
