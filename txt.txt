@@ -1,0 +1,18 @@
+create falcon json
+Change vpc name, check subnets
+Onprem-credentials with script
+Remove all the 1
+npm install -g aws-cdk
+
+cdk --version
+
+Aws configure
+Python3 -m venv venv
+Source venv/bin/activate
+pip3 install -r requirements.txt
+Run create secret script
+Remove secret script
+cdk bootstrap aws://746669204818/il-central-1 --trust 746669204818
+
+Cdk synth
+Cdk deploy

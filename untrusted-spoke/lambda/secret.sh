@@ -2,7 +2,7 @@
 # Script to create an AWS Secrets Manager secret for Google Cloud credentials
 
 # Replace with the path to your Google Cloud service account JSON key file
-GOOGLE_CREDENTIALS_FILE="/path/to/your/google-credentials.json"
+GOOGLE_CREDENTIALS_FILE="falcon-project-reader.json"
 
 # Create the secret in AWS Secrets Manager
 aws secretsmanager create-secret \

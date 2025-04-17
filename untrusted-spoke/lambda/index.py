@@ -164,14 +164,6 @@ def process_single_file(blob, s3_client, cloudwatch):
         # Download zip from Google Cloud Storage
         zip_content = download_from_gcs_with_retry(blob)
         
-        # Upload to raw folder in untrusted S3
-        raw_key = f"raw/{get_current_path()}/{blob.name}"
-        s3_client.put_object(
-            Bucket=os.environ['S3_BUCKET_NAME'],
-            Key=raw_key,
-            Body=zip_content
-        )
-
         # Extract and validate CSV
         temp_zip_path = os.path.join(temp_dir, 'temp.zip')
         with open(temp_zip_path, 'wb') as f:
@@ -199,27 +191,43 @@ def process_single_file(blob, s3_client, cloudwatch):
                 validation_result["errors"]
             )
             
+            # Get the path for storing in S3
+            s3_path = f"{get_current_path()}/{csv_filename}"
+            
             if validation_result["is_valid"]:
-                # If valid, copy to trusted S3 bucket
-                s3_client.copy_object(
-                    Bucket=os.environ['TRUSTED_S3_BUCKET'],
-                    Key=f"valid/{get_current_path()}/{blob.name}",
-                    CopySource={'Bucket': os.environ['S3_BUCKET_NAME'], 'Key': raw_key},
+                # Upload the CSV to untrusted bucket
+                s3_client.put_object(
+                    Bucket=os.environ['S3_BUCKET_NAME'],
+                    Key=s3_path,
+                    Body=csv_content,
                     Metadata={
                         'validation_status': 'valid',
-                        'process_duration': str(process_duration)
-                    },
-                    MetadataDirective='REPLACE'
+                        'process_duration': str(process_duration),
+                        'source_file': blob.name
+                    }
+                )
+                
+                # Upload the CSV to trusted bucket (without "valid" prefix)
+                s3_client.put_object(
+                    Bucket=os.environ['TRUSTED_S3_BUCKET'],
+                    Key=s3_path,  # Same path without "valid/" prefix
+                    Body=csv_content,
+                    Metadata={
+                        'validation_status': 'valid',
+                        'process_duration': str(process_duration),
+                        'source_file': blob.name
+                    }
                 )
                 return True
             else:
-                # Create error log
+                # Create error log in the invalid folder
                 s3_client.put_object(
                     Bucket=os.environ['S3_BUCKET_NAME'],
-                    Key=f"invalid/{get_current_path()}/{blob.name}.errors.json",
+                    Key=f"invalid/{s3_path}.errors.json",
                     Body=json.dumps({
                         'validation_result': validation_result,
-                        'process_duration': process_duration
+                        'process_duration': process_duration,
+                        'source_file': blob.name
                     }, indent=2),
                     Metadata={'validation_status': 'invalid'}
                 )

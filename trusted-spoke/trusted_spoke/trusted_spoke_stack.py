@@ -9,13 +9,14 @@ from aws_cdk import (
     aws_ec2 as ec2,
     aws_sqs as sqs,
     aws_logs as logs,
+    Size,
     Tags
 )
 from constructs import Construct
 
 class TrustedSpokeStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, untrusted_account_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # Use existing VPC
@@ -37,6 +38,7 @@ class TrustedSpokeStack(Stack):
             removal_policy=RemovalPolicy.RETAIN,
             encryption=s3.BucketEncryption.S3_MANAGED,
             event_bridge_enabled=True,
+            versioned=True,
             lifecycle_rules=[
                 s3.LifecycleRule(
                     transitions=[
@@ -48,6 +50,24 @@ class TrustedSpokeStack(Stack):
                     enabled=True
                 )
             ]
+        )
+        
+        # Add cross-account bucket policy to allow access from untrusted account
+        trusted_bucket.add_to_resource_policy(
+            iam.PolicyStatement(
+                sid="AllowCrossAccountAccess",
+                effect=iam.Effect.ALLOW,
+                principals=[iam.AccountPrincipal(untrusted_account_id)],
+                actions=[
+                    "s3:PutObject", 
+                    "s3:GetObject",
+                    "s3:ListBucket"
+                ],
+                resources=[
+                    trusted_bucket.bucket_arn,
+                    f"{trusted_bucket.bucket_arn}/*"
+                ]
+            )
         )
         
         # Create SQS Queue for notifications
@@ -125,7 +145,7 @@ class TrustedSpokeStack(Stack):
             resources=[notification_queue.queue_arn]
         ))
         
-        # Create Secret access for on-prem credentials
+        # Create Secret access for on-prem credentials (fixing the name)
         lambda_role.add_to_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=["secretsmanager:GetSecretValue"],
@@ -147,7 +167,8 @@ class TrustedSpokeStack(Stack):
             code=lambda_.Code.from_asset("./lambda"),
             handler="index.lambda_handler",
             timeout=Duration.minutes(5),
-            memory_size=512,
+            memory_size=2048,
+            ephemeral_storage_size=Size.mebibytes(4096),
             environment={
                 "TRUSTED_BUCKET": trusted_bucket.bucket_name,
                 "ONPREM_SECRET_NAME": "onprem-credentials"

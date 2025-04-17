@@ -43,9 +43,8 @@ def send_metrics(cloudwatch, metrics_data):
         logger.error(f"Error sending metrics: {str(e)}")
 
 def transfer_file_to_onprem(file_path, file_content, credentials, location):
-    """Transfer file to specific on-premises system using SFTP with certificate authentication"""
+    """Transfer file to specific on-premises system using SFTP with network-based trust"""
     temp_file_path = f"/tmp/{uuid.uuid4()}"
-    private_key_path = f"/tmp/{uuid.uuid4()}_key"
     
     try:
         # Write content to temporary file
@@ -55,25 +54,17 @@ def transfer_file_to_onprem(file_path, file_content, credentials, location):
         # Get location-specific credentials
         host = credentials[f'{location}_host']
         port = int(credentials[f'{location}_port'])
-        username = credentials[f'{location}_username']
-        private_key_data = credentials[f'{location}_private_key']
-        
-        # Write the private key to a temporary file
-        with open(private_key_path, 'w') as key_file:
-            key_file.write(private_key_data)
-        os.chmod(private_key_path, 0o600)  # Set proper permissions for private key
         
         # Create SSH client
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        # Connect with key-based authentication
-        private_key = paramiko.RSAKey.from_private_key_file(private_key_path)
+        # Connect using network-based trust (no username/password or keys)
         client.connect(
             hostname=host,
             port=port,
-            username=username,
-            pkey=private_key,
+            # No username, password, or private key needed
+            # The connection is authenticated based on network trust
             timeout=30
         )
         
@@ -99,8 +90,6 @@ def transfer_file_to_onprem(file_path, file_content, credentials, location):
         # Clean up temporary files
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
-        if os.path.exists(private_key_path):
-            os.remove(private_key_path)
 
 def create_remote_directory(sftp, remote_dir):
     """Create remote directory structure if it doesn't exist"""
