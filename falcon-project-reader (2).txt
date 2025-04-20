@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "customer-success-prod",
+  "private_key_id": "5919058fa7754d558b6897636b9e6fdbabc34742",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDFCAEHgR1GgBKr\nDXg5X6aN4eUYKQCokmASYGrTktPD5h5M77rg93MRsDsIN/3XNczfALHiH4nxxYfh\nMEtEYaBm/l9ypUIuT0qlOYy9IgrPAbg53Z4Zt872bEWcf3F6Iy73c9EFFBdaN6Vi\nDOKDMe2wxMEzqpFOPZy+Y1yGPx28GScf8NEcvf0rogfPBEQwZ4amfbVDd9SAiS9V\nFGV6ZE4r/jpKo433P8mp1jXtInSZC9VDVn3h1HiFZmVsgej4ImTOL7Q+WEDwDEDS\n4XMg+Z+/YENXu4YSBxPgmPHY7gsiY1qwOPXAF/2Xdxfx42PDz9rC82ayjemuZ0T7\nOb2mhA8DAgMBAAECggEAIMGhZi19f/yH3f85xxQTXRA6pacfcGcRaMy1xeHpqe5m\niDTs1TzeWQj673Vbkr1jh4mWiTjkFplX60S7pq0yXR0aIjW+SHOvPcPRFZqEwICR\nL7Gb+LuZwVcjxY5cf8k8pDARhm4eKcYJjUEGIXiaAyLa2euYB7Fvjyl2tuzkVSJw\nfTOKwAWwHapTpZDWiL/9ldaZGqBBxfxauZkhxNKNXlkoPuya1Uc/kqP079r8MeuJ\n9pgRg++NGrk5HrevKBrZaLHEL1i4F4jc9Ugq/Li8PhmFfOIiRYxKqVA44ebFOk3B\nWiWnt3N9qh3A2DyVylAMnOMPLRn4qa5WBP5v97L3EQKBgQDyavmDY4jKhXTGLri1\nM5kbTARxNVHOIXRbJD67o2Mo6jsJhOgWY1zNxWOaY8JxMQ015UecIvOq8ykYRu2/\nLxt2vPiVdyjoXFtJhENH7Y04OzteUmE0uJYgWNDDodJTSv91cuhSnw6muGJrlzVd\n3E3je8/FbFJvZY0FvVEDQ11wcQKBgQDQEgthzJrrls/RQmTcf6GRyPiFbW2GgDUn\ngitPK4wMjaFXqABu8hd6NYsQpREc3cY2JkQrBIG8zOmx2g5ARpzbchjBKudqJVr7\nmnu3poNZVxuimaIAD5eM2cYVtMLOdFfur+qP9DCKIxR2dGvVmV0sTEfe+I0hsIdE\nNBa76U1wswKBgQCuoYdrMgm5stgDaGbhCfGSq3lLwFhVAN6cRYj3jOUC9XFgEyFJ\n93xEM5zj/Fd3SRm2KJwkiz0zegWxmm7sWdgT+l+s9HFAqj+Mvz3kk+k2h9zlvryN\nySdE2BZTx8AHBrDuf7+CvVhFm/Ayh3QHUIu/g1KSas0buHEVoGK60g1+0QKBgQCk\nzBXtwQNW4xz4TdDa/8+1Surjqxcbd4IiJ6wryX7kFm0aozqspNxJdA0QAt058sFh\n9A77z1b+dYIG1oGBESx9drH6lQOzA6E7NFEW1TClWyPNNkekKrVK3tVQLdo5cNaQ\new6aM7saPcygQXeDNzQfuM8X397QNyP7thHnhVJLlwKBgEOeOmgmaGXhA0WOKfXe\nX6GkZCQjbcxOuH0qcEjA8vjDaYW8IE+8F8klyO2m/GdItR9cKw6x5KOkEcCZDw51\n+JZDIdNc1vB0uj65OOTL9hSoUOqeEVV1/D8cm06L5Y59b6yzqCYTTXsvc5F+eXjA\nGGCkYTGjeAVxlkLdArC66mZ+\n-----END PRIVATE KEY-----\n",
+  "client_email": "falcon-project-reader@customer-success-prod.iam.gserviceaccount.com",
+  "client_id": "100536602781596888253",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/falcon-project-reader%40customer-success-prod.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
